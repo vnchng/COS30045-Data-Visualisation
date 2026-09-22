@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Healthcare Expenditure Visualisation</title>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <h1>Healthcare Expenditure by Provider</h1>
+<!-- 
+    <h2>Healthcare Expenditure by Provider in Australia of 2023</h2>
+
+    <div id="chart"></div>
+    <div id="tooltip"></div>
+    <script src="js/healthExpenditureByProvider"></script>
+-->
+
+    <h2>Healthcare Expenditure by Provider Across Countries — 2023</h2>
+    <label for="yearSelect">Year:</label>
+
+    <select id="yearSelect">
+        <option value="2015">2015</option>
+        <option value="2016">2016</option>
+        <option value="2017">2017</option>
+        <option value="2018">2018</option>
+        <option value="2019">2019</option>
+        <option value="2020">2020</option>
+        <option value="2021">2021</option>
+        <option value="2022">2022</option>
+        <option value="2023" selected>2023</option>
+        <option value="2024">2024</option>
+        <option value="2025">2025</option>
+    </select>
+    <div id="stackedChart"></div>
+
+    <script src="js/healthExpenditureStackedBar.js"></script>
+    <div id="tooltip"></div>
+</body>
+
+</html>
