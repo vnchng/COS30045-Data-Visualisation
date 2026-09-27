@@ -12,15 +12,8 @@
 
 <body>
     <h1>Healthcare Expenditure by Provider</h1>
-<!-- 
-    <h2>Healthcare Expenditure by Provider in Australia of 2023</h2>
 
-    <div id="chart"></div>
-    <div id="tooltip"></div>
-    <script src="js/healthExpenditureByProvider"></script>
--->
-
-    <h2>Healthcare Expenditure by Provider Across Countries — 2023</h2>
+    <h2>Healthcare Expenditure by Provider Across Countries</h2>
     <label for="yearSelect">Year:</label>
 
     <select id="yearSelect">
@@ -37,6 +30,12 @@
         <option value="2025">2025</option>
     </select>
     <div id="stackedChart"></div>
+
+    <label for="countryFilter">Country view:</label>
+
+    <select id="countryFilter">
+        <option value="all">All countries</option>
+    </select>
 
     <script src="js/healthExpenditureStackedBar.js"></script>
     <div id="tooltip"></div>
