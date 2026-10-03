@@ -1,6 +1,6 @@
 console.log("Perceived health education chart loaded");
 
-d3.csv("data/clean/perceived_health_education_clean.csv")
+d3.csv("data/clean/perceived_health_status_by_socioeconomic_status.csv")
 .then(function(data) {
 
     // Convert numerical fields
