@@ -54,11 +54,31 @@
     <!-- Chart -->
     <div id="stackedChart"></div>
 
-    <!-- Tooltip -->
-    <div id="tooltip"></div>
+<!-- Tooltip for expenditure chart -->
+<div id="tooltip"></div>
 
-    <script src="js/healthExpenditureStackedBar.js"></script>
-    <div id="tooltip"></div>
+<script src="js/healthExpenditureStackedBar.js"></script>
+
+
+<hr>
+
+
+<h2>Perceived Health Status by Education Level</h2>
+
+<label for="educationYearSelect">
+    Year:
+</label>
+
+<select id="educationYearSelect">
+    <option value="2015">2015</option>
+    <option value="2020">2020</option>
+    <option value="2023" selected>2023</option>
+</select>
+
+<div id="educationChart"></div>
+
+
+<script src="js/perceivedHealthEducation.js"></script>
 </body>
 
 </html>
