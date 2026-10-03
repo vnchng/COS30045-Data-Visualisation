@@ -24,3 +24,73 @@ body {
 .controls {
     margin-bottom: 15px;
 }
+
+#countryFilter {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+#countryDropdown {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+
+/* Hidden by default */
+#countryMenu {
+    display: none;
+    position: absolute;
+    background: white;
+    border: 1px solid #aaa;
+    padding: 10px;
+    width: 260px;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 10;
+}
+
+
+/* Display when dropdown is opened */
+#countryMenu.show {
+    display: block;
+}
+
+
+#countryButtons {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.country-option {
+    padding: 4px;
+    cursor: pointer;
+}
+
+
+.country-option input {
+    margin-right: 8px;
+}
+
+
+#selectAll,
+#clearAll {
+    margin-top: 10px;
+    margin-right: 5px;
+}
+
+
+#selectedCountries {
+    margin-top: 8px;
+}
+
+
+.selected-country {
+    display: inline-block;
+    padding: 4px 8px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    border: 1px solid #aaa;
+    border-radius: 12px;
+    font-size: 13px;
+}
