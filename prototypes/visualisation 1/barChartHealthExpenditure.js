@@ -1,4 +1,4 @@
-d3.csv("data/clean/health_expenditure_by_provider_clean.csv").then(function(data) {
+d3.csv("../../data/clean/health_expenditure_by_provider_clean.csv").then(function(data) {
 
     // Convert numerical values from strings to numbers
     data.forEach(function(d) {

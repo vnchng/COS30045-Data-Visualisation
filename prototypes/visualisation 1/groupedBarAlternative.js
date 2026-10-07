@@ -43,7 +43,7 @@ var svg = d3.select("#chart")
 
 // Load cleaned dataset
 d3.csv(
-    "../data/clean/health_expenditure_by_provider_clean.csv"
+    "../../data/clean/health_expenditure_by_provider_clean.csv"
 ).then(function(data) {
 
     // Convert expenditure to number

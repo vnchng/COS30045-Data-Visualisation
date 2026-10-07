@@ -1,7 +1,7 @@
 console.log("Heatmap perceived health loaded");
 
 
-d3.csv("../data/clean/perceived_health_status_by_socioeconomic_status.csv")
+d3.csv("../../data/clean/perceived_health_status_by_socioeconomic_status.csv")
 .then(function(data){
 
 
