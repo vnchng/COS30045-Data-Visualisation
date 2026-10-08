@@ -132,14 +132,17 @@ svg text {
     margin-top: 8px;
 }
 
+/* confusing repeated names i know but here's the ref */
 
+/* styling on scatterplot, vis 3, for selected countries*/
 .selected-country {
     display: inline-block;
+    background: white;
     padding: 4px 8px;
     margin-right: 5px;
     margin-bottom: 5px;
-    border: 1px solid #aaa;
-    border-radius: 12px;
+    border: 1px solid #555555;
+    border-radius: 18px;
     font-size: 13px;
 }
 .country-hover-select {
