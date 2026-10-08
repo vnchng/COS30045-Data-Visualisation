@@ -5,6 +5,7 @@ d3.csv("data/clean/health_expenditure_and_coverage_combined.csv")
 .then(function(data){
 
     var selectedCountries = new Set();
+    var selectedYear = 2023; //default year
 
     //selected countries show up as buttons/labels
     function updateSelectedCountryButtons(){
@@ -27,12 +28,68 @@ d3.csv("data/clean/health_expenditure_and_coverage_combined.csv")
                     selectedCountries.delete(country);
 
                     updateSelectedCountryButtons();
+                    updateSelectedCountryDetails();
                     updateDotColors();
 
                 });
         });
     }
 
+    //details for selected country tag
+    function updateSelectedCountryDetails(){
+
+        var container =
+            d3.select("#selectedCountryDetails");
+
+
+        container
+            .selectAll("*")
+            .remove();
+
+
+        selectedCountries.forEach(function(country){
+
+
+            var countryData = data.find(function(d){
+
+                return (
+                    d.country === country &&
+                    d.year === selectedYear
+                );
+
+            });
+
+
+            if(countryData){
+
+
+                container
+                    .append("div")
+                    .attr(
+                        "class",
+                        "country-detail-card"
+                    )
+                    .html(
+
+                        "<strong>" +
+                        country +
+                        "</strong>" +
+
+                        "Healthcare expenditure: " +
+                        countryData.expenditure.toFixed(2) +
+                        "% GDP<br>" +
+
+                        "Healthcare coverage: " +
+                        countryData.coverage.toFixed(1) +
+                        "%"
+
+                    );
+
+            }
+
+        });
+
+    }
 
     function updateDotColors(){
 
@@ -119,6 +176,7 @@ d3.csv("data/clean/health_expenditure_and_coverage_combined.csv")
 
             updateDotColors();
             updateSelectedCountryButtons();
+            updateSelectedCountryDetails();
 
             // reset dropdown
             this.value = "";
@@ -146,6 +204,7 @@ d3.csv("data/clean/health_expenditure_and_coverage_combined.csv")
 
             updateDotColors();
             updateSelectedCountryButtons();
+            updateSelectedCountryDetails();
 
         });
 
@@ -312,6 +371,7 @@ d3.csv("data/clean/health_expenditure_and_coverage_combined.csv")
 
                 updateDotColors();
                 updateSelectedCountryButtons();
+                updateSelectedCountryDetails();
 
             })
 
@@ -402,9 +462,11 @@ d3.csv("data/clean/health_expenditure_and_coverage_combined.csv")
     d3.select("#coverageYearSelect")
         .on("change", function(){
 
-            var selectedYear = +this.value;
+            //var selectedYear = +this.value;
+            selectedYear = +this.value;
 
             drawScatter(selectedYear);
+            updateSelectedCountryDetails();
 
         });
 
