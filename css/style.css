@@ -3,6 +3,48 @@ body {
     margin: 0;
 }
 
+/* more specifics */
+h1,
+h2,
+p,
+label,
+select,
+button {
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    font-size: 28px;
+}
+
+h2 {
+    font-size: 20px;
+    margin-top: 30px;
+}
+
+/* Dropdowns and buttons */
+select,
+button {
+    font-size: 14px;
+    padding: 5px 8px;
+}
+
+/* D3 chart text consistency */
+svg text {
+    font-family: Arial, sans-serif;
+}
+
+/* Axis styling */
+.axis text {
+    font-size: 12px;
+}
+
+
+.axis path,
+.axis line {
+    stroke-width: 1;
+}
+
 .visualisation-container {
     width: 90%;
     max-width: 1100px;
@@ -35,6 +77,12 @@ body {
     cursor: pointer;
 }
 
+/* addressing potential alignment issues for website */
+#chart {
+    width: 90%;
+    max-width: 900px;
+    margin: 20px auto;
+}
 
 /* Hidden by default */
 #countryMenu {
@@ -94,10 +142,58 @@ body {
     border-radius: 12px;
     font-size: 13px;
 }
+.country-hover-select {
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:10px;
+
+}
+
+#selectedCountries {
+
+    display:flex;
+    gap:8px;
+    margin-bottom: 15px;
+
+}
+
+.selected-country-tag {
+
+    background: white;
+
+    border: 1px solid #aaa;
+
+    border-radius: 15px;
+
+    padding: 5px 12px;
+
+    cursor: pointer;
+
+    font-size: 13px;
+
+}
+
+.selected-country-tag:hover {
+
+    background: #f5f5f5;
+
+}
 
 .education-note {
 
     font-size: 12px;
     margin-top: 10px;
 
+}
+
+/* Tooltip styling default */
+.tooltip {
+    position: absolute;
+    background: white;
+    border: 1px solid #999;
+    padding: 8px;
+    font-size: 13px;
+    pointer-events: none;
 }
