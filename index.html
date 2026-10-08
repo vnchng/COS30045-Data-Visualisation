@@ -2,83 +2,633 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Healthcare Expenditure Visualisation</title>
 
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>The Price of Socioeconomic Health Inequality</title>
+
+    <!-- D3 -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <!-- Styles -->
     <link rel="stylesheet" href="css/style.css">
+
 </head>
 
+
 <body>
-    <h1>Healthcare Expenditure by Provider</h1>
-
-    <h2>Healthcare Expenditure by Provider Across Countries</h2>
-
-    <!-- Year filter -->
-    <label for="yearSelect">Year:</label>
-
-    <select id="yearSelect">
-        <option value="2015">2015</option>
-        <option value="2016">2016</option>
-        <option value="2017">2017</option>
-        <option value="2018">2018</option>
-        <option value="2019">2019</option>
-        <option value="2020">2020</option>
-        <option value="2021">2021</option>
-        <option value="2022">2022</option>
-        <option value="2023" selected>2023</option>
-        <option value="2024">2024</option>
-        <option value="2025">2025</option>
-    </select>
-
-    <!-- Country filter -->
-    <div id="countryFilter">
-
-    <label><strong>Countries:</strong></label>
-
-    <button id="countryDropdown" type="button">
-        Select countries ▼
-    </button>
-
-    <div id="countryMenu">
-        <div id="countryButtons"></div>
-
-        <button id="selectAll" type="button">Select All</button>
-        <button id="clearAll" type="button">Clear</button>
-    </div>
-
-    <div id="selectedCountries"></div>
-
-    </div>
-
-    <!-- Chart -->
-    <div id="stackedChart"></div>
-
-<!-- Tooltip for expenditure chart -->
-<div id="tooltip"></div>
-
-<script src="js/healthExpenditureStackedBar.js"></script>
 
 
-<hr>
+    <!-- =====================================================
+         NAV
+    ====================================================== -->
+
+    <nav class="navbar">
+
+        <a href="#home" class="brand">
+            SOCIOECONOMIC HEALTH INEQUALITY
+        </a>
+
+        <div class="nav-links">
+
+            <a href="#spending">
+                Expenditure
+            </a>
+
+            <a href="#coverage">
+                Coverage
+            </a>
+
+            <a href="#inequality">
+                Health Inequality
+            </a>
+
+            <a href="#about">
+                About
+            </a>
+
+        </div>
+
+    </nav>
 
 
-<h2>Perceived Health Status by Education Level</h2>
 
-<label for="educationYearSelect">
-    Year:
-</label>
+    <!-- =====================================================
+         INTRO / HERO
+    ====================================================== -->
 
-<select id="educationYearSelect">
-    <option value="2015">2015</option>
-    <option value="2020">2020</option>
-    <option value="2023" selected>2023</option>
-</select>
+    <header id="home" class="hero">
 
-<div id="educationChart"></div>
+        <div class="hero-content">
+
+            <p class="eyebrow">
+                COS30045 DATA VISUALISATION
+            </p>
+
+            <p class="authors">
+                Riya Malik & Vanessa Chung
+            </p>
+
+            <h1>
+                The Price of Socioeconomic Health Inequality
+            </h1>
+
+            <p class="hero-description">
+                An exploration of healthcare expenditure, healthcare
+                coverage and socioeconomic differences in health outcomes
+                across OECD countries.
+            </p>
+
+            <p class="research-question">
+
+                <strong>Research question:</strong>
+
+                Does greater healthcare expenditure correspond with
+                better healthcare coverage and more equitable
+                health outcomes?
+
+            </p>
+
+        </div>
+
+    </header>
 
 
-<script src="js/perceivedHealthEducation.js"></script>
+
+    <main>
+
+
+        <!-- =================================================
+            01 — HEALTHCARE EXPENDITURE
+        ================================================== -->
+
+        <section id="spending" class="data-section">
+
+            <p class="section-number">
+                01 / HEALTHCARE EXPENDITURE
+            </p>
+
+            <h2>
+                Where does healthcare spending go?
+            </h2>
+
+            <p class="section-description">
+                Compare healthcare expenditure across OECD countries
+                and examine how spending is distributed between
+                different healthcare providers.
+            </p>
+
+
+            <!-- Visualisation -->
+
+            <div class="visualisation">
+
+                <h3>
+                    Healthcare expenditure by provider
+                </h3>
+
+                <p class="visualisation-subtitle">
+                    Healthcare expenditure as a percentage of GDP,
+                    grouped by healthcare provider and country.
+                </p>
+
+
+                <!-- Filters -->
+
+                <div class="controls">
+
+
+                    <!-- Year -->
+
+                    <div class="control">
+
+                        <label for="yearSelect">
+                            Year
+                        </label>
+
+                        <select id="yearSelect">
+
+                            <option value="2015">2015</option>
+                            <option value="2016">2016</option>
+                            <option value="2017">2017</option>
+                            <option value="2018">2018</option>
+                            <option value="2019">2019</option>
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+
+                            <option value="2023" selected>
+                                2023
+                            </option>
+
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Countries -->
+
+                    <div class="control">
+
+                        <label for="countryDropdown">
+                            Countries
+                        </label>
+
+                        <div id="countryFilter">
+
+                            <button
+                                id="countryDropdown"
+                                type="button"
+                                aria-expanded="false"
+                                aria-controls="countryMenu"
+                            >
+                                Select countries ▼
+                            </button>
+
+
+                            <div id="countryMenu">
+
+                                <div id="countryButtons"></div>
+
+
+                                <div class="country-actions">
+
+                                    <button
+                                        id="selectAll"
+                                        type="button"
+                                    >
+                                        Select All
+                                    </button>
+
+                                    <button
+                                        id="clearAll"
+                                        type="button"
+                                    >
+                                        Clear
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Selected countries -->
+
+                <div id="selectedCountries"></div>
+
+
+                <!-- Chart -->
+
+                <div id="stackedChart"></div>
+
+
+                <p class="chart-note">
+
+                    <strong>How to read:</strong>
+
+                    Each bar represents healthcare expenditure as a
+                    percentage of GDP. Colours show how expenditure is
+                    distributed between healthcare providers. Hover over
+                    a country to examine its expenditure composition.
+
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+            02 — HEALTHCARE COVERAGE
+        ================================================== -->
+
+        <section id="coverage" class="data-section">
+
+            <p class="section-number">
+                02 / HEALTHCARE COVERAGE
+            </p>
+
+            <h2>
+                Does greater spending correspond with better coverage?
+            </h2>
+
+            <p class="section-description">
+                Compare healthcare expenditure and healthcare coverage
+                across countries to examine whether greater spending
+                corresponds with broader access to healthcare.
+            </p>
+
+
+            <div class="visualisation">
+
+                <h3>
+                    Healthcare expenditure and coverage
+                </h3>
+
+                <p class="visualisation-subtitle">
+                    Comparing healthcare expenditure with healthcare
+                    coverage across OECD countries.
+                </p>
+
+
+                <!-- Filters -->
+
+                <div class="controls">
+
+                    <!-- Year -->
+
+                    <div class="control">
+
+                        <label for="coverageYearSelect">
+                            Year
+                        </label>
+
+                        <select id="coverageYearSelect"></select>
+
+                    </div>
+
+
+                    <!-- Country -->
+
+                    <div class="control">
+
+                        <label for="countrySelect">
+                            Country
+                        </label>
+
+                        <select id="countrySelect"></select>
+
+                    </div>
+
+
+                    <!-- Clear selected countries -->
+
+                    <div class="control">
+
+                        <label>
+                            Selection
+                        </label>
+
+                        <button id="clearSelection" type="button">
+                            Clear selection
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Selected countries -->
+
+                <div id="coverageSelectedCountries"></div>
+
+
+                <!-- Chart -->
+
+                <div id="coverageChart"></div>
+
+
+                <p class="chart-note">
+
+                    <strong>How to read:</strong>
+
+                    Each point represents a country. Compare countries
+                    with similar levels of healthcare expenditure to
+                    examine differences in healthcare coverage.
+
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+            03 — SOCIOECONOMIC HEALTH INEQUALITY
+        ================================================== -->
+
+        <section id="inequality" class="data-section">
+
+            <p class="section-number">
+                03 / HEALTH INEQUALITY
+            </p>
+
+            <h2>
+                How does perceived health differ by education level?
+            </h2>
+
+            <p class="section-description">
+                Compare perceived health outcomes across different
+                levels of educational attainment to explore
+                socioeconomic differences in health.
+            </p>
+
+
+            <div class="visualisation">
+
+                <h3>
+                    Perceived health status by education level
+                </h3>
+
+                <p class="visualisation-subtitle">
+                    Comparing perceived health outcomes across
+                    education groups and OECD countries.
+                </p>
+
+                <!-- Year filter -->
+                <div class="controls">
+                    <div class="control">
+                        <label for="heatmapYearSelect">
+                            Year
+                        </label>
+
+                        <select id="heatmapYearSelect"></select>
+                    </div>
+                </div>
+
+                <!-- Heatmap -->
+                <div id="heatmap">
+
+                    <!-- Colour legend -->
+                    <div id="legend"></div>
+
+                    <!-- Heatmap chart -->
+                    <div id="heatmapChart"></div>
+
+                </div>
+
+
+                <p class="chart-note">
+
+                    <strong>How to read:</strong>
+
+                    Each cell represents perceived health status for a
+                    country and education level. Compare the colour
+                    intensity between education groups to identify
+                    socioeconomic differences in perceived health.
+
+                </p>
+
+
+                <p class="education-note">
+                    <i>
+                        Note: Lower education = pre-primary, primary and
+                        lower secondary education. Upper secondary education =
+                        upper secondary and post-secondary non-tertiary education.
+                    </i>
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+            DATA & METHODOLOGY
+        ================================================== -->
+
+        <section id="about" class="about-section">
+
+            <p class="section-number">
+                DATA & METHODOLOGY
+            </p>
+
+            <h2>
+                Data and methodology
+            </h2>
+
+            <p class="section-description">
+                This project uses OECD healthcare and socioeconomic data
+                to explore relationships between healthcare expenditure,
+                healthcare coverage and inequalities in perceived health.
+            </p>
+
+
+            <div class="about-content">
+
+                <div>
+
+                    <h3>
+                        Healthcare expenditure
+                    </h3>
+
+                    <p>
+                        Visualisation 1 uses OECD healthcare expenditure
+                        data to compare expenditure across countries and
+                        examine how spending is distributed between
+                        different healthcare providers.
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <h3>
+                        Expenditure and coverage
+                    </h3>
+
+                    <p>
+                        Visualisation 2 combines two datasets: healthcare
+                        expenditure and healthcare coverage. The datasets
+                        were cleaned and joined by country and year,
+                        allowing expenditure and coverage to be compared
+                        within the same visualisation.
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <h3>
+                        Socioeconomic health inequality
+                    </h3>
+
+                    <p>
+                        Visualisation 3 uses OECD perceived health data
+                        grouped by educational attainment. Education level
+                        is used as a socioeconomic measure to compare
+                        differences in perceived health across countries.
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <h3>
+                        Data preparation
+                    </h3>
+
+                    <p>
+                        The datasets were cleaned before visualisation by
+                        selecting relevant variables, standardising values
+                        and filtering the data to the categories required
+                        for each visualisation. A combined dataset was also
+                        created for Visualisation 2 by matching expenditure
+                        and coverage observations by country and year.
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <h3>
+                        Data sources
+                    </h3>
+
+                    <p>
+                        Data for this project was sourced from the
+                        Organisation for Economic Co-operation and
+                        Development (OECD).
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="sources">
+
+            <h3>Sources</h3>
+
+            <p>
+                [1]
+                <a href="https://data-explorer.oecd.org/vis?df[ds]=DisseminateFinalDMZ&df[id]=DSD_SHA%40DF_SHA&df[ag]=OECD.ELS.HD&dq=.A.EXP_HEALTH.PT_B1GQ._T.._T.....&pd=2015,&to[TIME_PERIOD]=false&vw=tb" target="_blank">
+                    OECD — Health expenditure by provider
+                </a>
+            </p>
+
+            <p>
+                [2]
+                <a href="https://data-explorer.oecd.org/vis?fs[0]=Topic,1%7CHealth%23HEA%23%7CHealthcare%20coverage%23HEA_COV%23&pg=0&fc=Topic&bp=true&snb=1&vw=ov&df[ds]=dsDisseminateFinalDMZ&df[id]=DSD_HEALTH_PROT%40DF_HEALTH_PROT&df[ag]=OECD.ELS.HD&dq=.A...&pd=2010,&to[TIME_PERIOD]=false" target="_blank">
+                    OECD — Healthcare coverage
+                </a>
+            </p>
+
+            <p>
+                [3]
+                <a href="https://data-explorer.oecd.org/vis?lc=en&df[ds]=dsDisseminateFinalDMZ&df[id]=DSD_HEALTH_STAT%40DF_PHS_SES&df[ag]=OECD.ELS.HD&df[vs]=1.1&dq=.A...Y_GE15._T.Q1....G..&pd=2010,&to[TIME_PERIOD]=false" target="_blank">
+                    OECD — Perceived health status by socioeconomic status
+                </a>
+            </p>
+
+        </div>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer>
+
+        <div>
+
+            <strong>
+                The Price of Socioeconomic Health Inequality
+            </strong>
+
+            <p>
+                COS30045 Data Visualisation • 2026
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <p>
+                Riya Malik & Vanessa Chung
+            </p>
+
+            <p>
+                Data: OECD
+            </p>
+
+        </div>
+
+    </footer>
+
+
+
+    <!-- =====================================================
+         GLOBAL TOOLTIP
+    ====================================================== -->
+
+    <div id="tooltip"></div>
+
+
+
+    <!-- =====================================================
+         JS
+    ====================================================== -->
+
+    <script src="js/healthExpenditureStackedBar.js"></script>
+
+    <script src="js/scatterPlotCoverage.js"></script>
+
+    <script src="js/heatMapPerceivedHealth.js"></script>
+
+
 </body>
 
 </html>
