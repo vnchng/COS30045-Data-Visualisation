@@ -1,202 +1,758 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+* {
+    box-sizing: border-box;
 }
 
-/* more specifics */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+
+    background: #f7f6f2;
+    color: #17212b;
+
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+}
+
 h1,
 h2,
-p,
-label,
-select,
-button {
-    font-family: Arial, sans-serif;
+h3,
+p {
+    margin-top: 0;
 }
 
-h1 {
-    font-size: 28px;
+a {
+    color: inherit;
 }
 
-h2 {
-    font-size: 20px;
-    margin-top: 30px;
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 18px 5%;
+
+    background: #f7f6f2;
+
+    border-bottom: 1px solid #dfe3e6;
 }
 
-/* Dropdowns and buttons */
-select,
-button {
+.brand {
+    color: #17212b;
+
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 0.12em;
+
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    gap: 28px;
+}
+
+.nav-links a {
+    color: #59636e;
+
     font-size: 14px;
-    padding: 5px 8px;
+
+    text-decoration: none;
 }
 
-/* D3 chart text consistency */
-svg text {
-    font-family: Arial, sans-serif;
-}
-
-/* Axis styling */
-.axis text {
-    font-size: 12px;
+.nav-links a:hover {
+    color: #17212b;
 }
 
 
-.axis path,
-.axis line {
-    stroke-width: 1;
-}
+/* =========================================================
+   HERO
+========================================================= */
 
-.visualisation-container {
+.hero {
     width: 90%;
-    max-width: 1100px;
-    margin: 30px auto;
-}
+    max-width: 1280px;
 
-#stackedChart {
-    width: 90%;
-    max-width: 900px;
     margin: 0 auto;
+    padding: 90px 0 80px;
+
+    border-bottom: 1px solid #dfe3e6;
 }
 
-#stackedChart svg {
-    display: block;
-    width: 100%;
-    height: auto;
+.hero-content {
+    max-width: 900px;
 }
+
+.eyebrow,
+.section-number {
+    margin-bottom: 18px;
+
+    color: #315f72;
+
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 0.12em;
+}
+
+.authors {
+    margin: -10px 0 30px;
+
+    color: #66717d;
+
+    font-size: 14px;
+}
+
+.hero h1 {
+    max-width: 900px;
+
+    margin-bottom: 25px;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(42px, 6vw, 72px);
+    font-weight: normal;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+}
+
+.hero-description {
+    max-width: 700px;
+    margin-bottom: 30px;
+
+    color: #59636e;
+
+    font-size: 18px;
+}
+
+.research-question {
+    max-width: 750px;
+
+    padding: 18px 0;
+    margin-bottom: 0;
+
+    border-top: 1px solid #dfe3e6;
+    border-bottom: 1px solid #dfe3e6;
+
+    font-size: 15px;
+}
+
+.research-question strong {
+    color: #315f72;
+}
+
+
+/* =========================================================
+   DATA SECTIONS
+========================================================= */
+
+.data-section,
+.about-section {
+    width: 90%;
+    max-width: 1280px;
+
+    margin: 0 auto;
+    padding: 85px 0;
+
+    border-bottom: 1px solid #dfe3e6;
+}
+
+.data-section > h2,
+.about-section > h2 {
+    max-width: 850px;
+
+    margin-bottom: 18px;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: normal;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+}
+
+.section-description {
+    max-width: 720px;
+    margin-bottom: 35px;
+
+    color: #66717d;
+
+    font-size: 16px;
+}
+
+
+/* =========================================================
+   CONTROLS
+========================================================= */
 
 .controls {
-    margin-bottom: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 25px;
+
+    margin: 30px 0 20px;
 }
 
-#countryFilter {
-    margin-top: 10px;
-    margin-bottom: 20px;
+.control {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
 }
 
+.control > label {
+    color: #66717d;
+
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   SELECTS AND BUTTONS
+========================================================= */
+
+select,
 #countryDropdown {
-    padding: 5px 10px;
+    min-width: 150px;
+
+    padding: 9px 12px;
+
+    background: #ffffff;
+    color: #17212b;
+
+    border: 1px solid #cfd5d9;
+    border-radius: 3px;
+
+    font: inherit;
+    font-size: 14px;
+
     cursor: pointer;
 }
 
-/* addressing potential alignment issues for website */
-#chart {
-    width: 90%;
-    max-width: 900px;
-    margin: 20px auto;
+select:hover,
+#countryDropdown:hover {
+    border-color: #9ea8ae;
 }
+
+select:focus,
+#countryDropdown:focus {
+    outline: 2px solid #dce8ec;
+    outline-offset: 1px;
+}
+
+
+/* =========================================================
+   EXPENDITURE COUNTRY FILTER
+========================================================= */
+
+#countryFilter {
+    position: relative;
+}
+
 
 /* Hidden by default */
 #countryMenu {
     display: none;
+
     position: absolute;
-    background: white;
-    border: 1px solid #aaa;
-    padding: 10px;
-    width: 260px;
-    max-height: 300px;
+    top: calc(100% + 5px);
+    left: 0;
+    z-index: 50;
+
+    width: 280px;
+    max-height: 330px;
+
+    padding: 12px;
+
     overflow-y: auto;
-    z-index: 10;
+
+    background: #ffffff;
+
+    border: 1px solid #cfd5d9;
 }
 
-
-/* Display when dropdown is opened */
 #countryMenu.show {
     display: block;
 }
-
 
 #countryButtons {
     display: flex;
     flex-direction: column;
 }
 
-
 .country-option {
-    padding: 4px;
+    padding: 5px;
+
+    font-size: 14px;
+
     cursor: pointer;
 }
 
+.country-option:hover {
+    background: #f2f3f1;
+}
 
 .country-option input {
     margin-right: 8px;
 }
 
+.country-actions {
+    display: flex;
+    gap: 5px;
+
+    padding-top: 10px;
+    margin-top: 8px;
+
+    border-top: 1px solid #e1e4e6;
+}
+
+
+/* =========================================================
+   CONTROL BUTTONS
+========================================================= */
 
 #selectAll,
-#clearAll {
-    margin-top: 10px;
-    margin-right: 5px;
+#clearAll,
+#clearSelection {
+    padding: 8px 11px;
+
+    background: #f7f6f2;
+    color: #17212b;
+
+    border: 1px solid #cfd5d9;
+    border-radius: 3px;
+
+    font: inherit;
+    font-size: 13px;
+
+    cursor: pointer;
+}
+
+#selectAll:hover,
+#clearAll:hover,
+#clearSelection:hover {
+    background: #eceeec;
 }
 
 
-#selectedCountries {
-    margin-top: 8px;
+/* =========================================================
+   SELECTED COUNTRIES
+========================================================= */
+
+#selectedCountries,
+#coverageSelectedCountries {
+    min-height: 0;
+
+    margin: 10px 0 25px;
 }
 
-/* confusing repeated names i know but here's the ref */
 
 /* styling on scatterplot, vis 3, for selected countries*/
 .selected-country {
     display: inline-block;
-    background: white;
     padding: 4px 8px;
     margin-right: 5px;
     margin-bottom: 5px;
-    border: 1px solid #555555;
-    border-radius: 18px;
+    border: 1px solid #aaa;
+    border-radius: 12px;
     font-size: 13px;
 }
-.country-hover-select {
 
-    display:flex;
-    align-items:center;
-    gap:10px;
-    margin-bottom:10px;
 
+/* =========================================================
+   CHART CONTAINERS
+========================================================= */
+
+#stackedChart,
+#coverageChart,
+#heatmap {
+    width: 100%;
+    max-width: 1000px;
+
+    margin: 25px auto;
+    padding: 25px;
+
+    background: #ffffff;
+
+    border: 1px solid #e0e3e5;
 }
 
-#selectedCountries {
+#stackedChart svg,
+#coverageChart svg,
+#heatmapChart svg {
+    display: block;
 
-    display:flex;
-    gap:8px;
-    margin-bottom: 15px;
+    width: 100%;
+    max-width: 900px;
+    height: auto;
 
+    margin: 0 auto;
 }
 
-.selected-country-tag {
 
-    background: white;
+/* =========================================================
+   D3 AXES AND TEXT
+========================================================= */
 
-    border: 1px solid #aaa;
+svg text {
+    font-family: Arial, Helvetica, sans-serif;
+    fill: #17212b;
+}
 
-    border-radius: 15px;
+.axis text {
+    font-size: 12px;
+    fill: #59636e;
+}
 
-    padding: 5px 12px;
+.axis path,
+.axis line {
+    stroke: #aeb6bb;
+    stroke-width: 1;
+}
+
+
+/* =========================================================
+   COVERAGE SCATTER PLOT
+========================================================= */
+
+#coverageChart .dot {
+    cursor: pointer;
+}
+
+#coverageChart .dot:hover {
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   HEALTH INEQUALITY HEATMAP
+========================================================= */
+
+#heatmap {
+    overflow-x: auto;
+}
+
+#legend {
+    width: 100%;
+
+    margin: 0 0 20px;
+
+    text-align: center;
+}
+
+#legend svg {
+    display: block;
+
+    max-width: 100%;
+    height: auto;
+
+    margin: 0 auto;
+}
+
+#heatmapChart {
+    width: 100%;
+}
+
+#heatmapChart .cell {
+    stroke: #ffffff;
+    stroke-width: 1px;
+}
+
+#heatmapChart .cell:hover {
+    stroke: #17212b;
+    stroke-width: 2px;
 
     cursor: pointer;
-
-    font-size: 13px;
-
 }
 
-.selected-country-tag:hover {
 
-    background: #f5f5f5;
+/* =========================================================
+   CHART NOTES
+========================================================= */
 
+.chart-note {
+    max-width: 800px;
+
+    margin-top: 20px;
+
+    color: #66717d;
+
+    font-size: 13px;
+}
+
+.chart-note strong {
+    color: #17212b;
 }
 
 .education-note {
+    max-width: 850px;
 
-    font-size: 12px;
     margin-top: 10px;
 
+    color: #66717d;
+
+    font-size: 12px;
+    line-height: 1.5;
 }
 
-/* Tooltip styling default */
+/* =========================================================
+   ABOUT
+========================================================= */
+
+.about-content {
+    max-width: 850px;
+
+    margin-top: 40px;
+}
+
+.about-content > div {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 30px;
+
+    padding: 22px 0;
+
+    border-top: 1px solid #dfe3e6;
+}
+
+.about-content > div:last-child {
+    border-bottom: 1px solid #dfe3e6;
+}
+
+.about-content h3 {
+    margin: 0;
+
+    font-size: 14px;
+}
+
+.about-content p {
+    margin: 0;
+
+    color: #66717d;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   TOOLTIP
+========================================================= */
+
+#tooltip {
+    position: absolute;
+    z-index: 200;
+
+    visibility: hidden;
+
+    max-width: 280px;
+
+    padding: 10px 12px;
+
+    background: #ffffff;
+    color: #17212b;
+
+    border: 1px solid #cfd5d9;
+
+    font-size: 13px;
+    line-height: 1.5;
+
+    pointer-events: none;
+}
+
+
+/* Keep class-based tooltip support for other visualisations */
 .tooltip {
     position: absolute;
-    background: white;
-    border: 1px solid #999;
-    padding: 8px;
+    z-index: 200;
+
+    padding: 8px 10px;
+
+    background: #ffffff;
+    color: #17212b;
+
+    border: 1px solid #cfd5d9;
+
     font-size: 13px;
+    line-height: 1.5;
+
     pointer-events: none;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+    display: flex;
+    justify-content: space-between;
+
+    gap: 40px;
+
+    padding: 45px 5%;
+
+    background: #17212b;
+    color: #ffffff;
+}
+
+footer strong {
+    font-size: 14px;
+}
+
+footer p {
+    margin: 4px 0;
+
+    color: #c5ccd1;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 800px) {
+
+    .navbar {
+        padding: 15px 5%;
+    }
+
+    .brand {
+        font-size: 11px;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .hero {
+        padding: 65px 0;
+    }
+
+    .hero h1 {
+        font-size: 42px;
+    }
+
+    .hero-description {
+        font-size: 16px;
+    }
+
+    .data-section,
+    .about-section {
+        padding: 60px 0;
+    }
+
+    .controls {
+        gap: 15px;
+    }
+
+    .control {
+        width: 100%;
+    }
+
+    select,
+    #countryDropdown {
+        width: 100%;
+    }
+
+    #countryMenu {
+        width: 100%;
+    }
+
+    #stackedChart,
+    #coverageChart,
+    #heatmap {
+        padding: 12px;
+    }
+
+    #legend {
+        overflow-x: auto;
+    }
+
+    .about-content > div {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    footer {
+        flex-direction: column;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 500px) {
+
+    .hero {
+        width: 92%;
+        padding: 50px 0;
+    }
+
+    .hero h1 {
+        font-size: 36px;
+    }
+
+    .data-section,
+    .about-section {
+        width: 92%;
+    }
+
+    .data-section > h2,
+    .about-section > h2 {
+        font-size: 30px;
+    }
+
+    #stackedChart,
+    #coverageChart,
+    #heatmap {
+        padding: 8px;
+    }
+}
+
+/* =========================================================
+   SOURCES
+========================================================= */
+
+.sources {
+    margin-top: 35px;
+}
+
+.sources h3 {
+    margin-bottom: 25px;
+
+    font-size: 23px;
+}
+
+.sources p {
+    margin: 0 0 18px;
+
+    line-height: 1.6;
+}
+
+.sources a {
+    color: #315f72;
+    text-decoration: underline;
+}
+
+.sources a:hover {
+    color: #17212b;
 }
