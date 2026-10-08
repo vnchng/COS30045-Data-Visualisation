@@ -315,10 +315,13 @@ d3.csv("data/clean/perceived_health_status_by_socioeconomic_status.csv")
                 .text("Higher health");
 
 
-        svg.selectAll("rect")
+        //svg.selectAll("rect")
+        svg.selectAll(".cell")
             .data(filteredData)
             .enter()
             .append("rect")
+
+            .attr("class","cell")
 
             .attr("x",function(d){
 
@@ -352,8 +355,91 @@ d3.csv("data/clean/perceived_health_status_by_socioeconomic_status.csv")
                     return colourScale(d.value);
 
                 }
-            );
+            )
 
+            //adding the below to add tooltip to website too
+
+            // Hover over heatmap cell
+            .on("mouseover",function(event,d){
+
+
+                tooltip
+                    .style(
+                        "visibility",
+                        "visible"
+                    )
+                    .html(
+
+                        "<strong>" +
+                        d.country +
+                        "</strong><br>" +
+
+                        "Education: " +
+                        educationNames[
+                            d.socioeconomic_status_code
+                        ]
+                        +
+                        "<br>" +
+
+                        "Good/very good health: " +
+                        d.value +
+                        "%"
+
+                    );
+
+
+                // highlight selected cell
+                d3.select(this)
+                    .style(
+                        "stroke",
+                        "#17212b"
+                    )
+                    .style(
+                        "stroke-width",
+                        2
+                    );
+
+
+            })
+
+
+            // tooltip moving with cursor
+            .on("mousemove",function(event){
+
+                tooltip
+                    .style(
+                        "left",
+                        (event.pageX + 10) + "px"
+                    )
+                    .style(
+                        "top",
+                        (event.pageY + 10) + "px"
+                    );
+
+            })
+
+
+            //tooltip removed when mouse leaves the cell
+            .on("mouseout",function(){
+
+                tooltip
+                    .style(
+                        "visibility",
+                        "hidden"
+                    );
+
+
+                d3.select(this)
+                    .style(
+                        "stroke",
+                        "white"
+                    )
+                    .style(
+                        "stroke-width",
+                        1
+                    );
+
+            });
 
 
         svg.append("g")

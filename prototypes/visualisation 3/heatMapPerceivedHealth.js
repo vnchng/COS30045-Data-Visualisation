@@ -62,7 +62,7 @@ d3.csv("../../data/clean/perceived_health_status_by_socioeconomic_status.csv")
 
     function drawHeatmap(selectedYear){
         
-        d3.select("#heatmap")
+        d3.select("#heatmapChart")
             .selectAll("*")
             .remove();
 
@@ -94,7 +94,7 @@ d3.csv("../../data/clean/perceived_health_status_by_socioeconomic_status.csv")
 
 
 
-        var svg = d3.select("#heatmap")
+        var svg = d3.select("#heatmapChart")
             .append("svg")
             .attr(
                 "width",
