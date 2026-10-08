@@ -1,7 +1,7 @@
 console.log("Grouped bar coverage loaded");
 
 
-d3.csv("../../data/clean/health_expenditure_coverage_clean.csv")
+d3.csv("../../data/clean/health_expenditure_and_coverage_combined.csv")
 .then(function(data){
 
 
@@ -13,21 +13,22 @@ d3.csv("../../data/clean/health_expenditure_coverage_clean.csv")
 
     });
 
-
-    var selectedYear = 2023;
-
-
-    var filteredData = data.filter(function(d){
-
-        return d.year === selectedYear;
-
-    });
+    var years = [
+        ...new Set(
+            data.map(function(d){
+                return d.year;
+            })
+        )
+    ].sort();
 
 
-    // Limit countries for prototype readability
-    filteredData = filteredData.slice(0,10);
-
-
+    d3.select("#yearSelect")
+        .selectAll("option")
+        .data(years)
+        .enter()
+        .append("option")
+        .attr("value",d=>d)
+        .text(d=>d);
 
     var margin = {
 
@@ -38,222 +39,388 @@ d3.csv("../../data/clean/health_expenditure_coverage_clean.csv")
 
     };
 
-
     var width = 900 - margin.left - margin.right;
-
     var height = 500 - margin.top - margin.bottom;
 
+    function drawChart(selectedYear){
+
+        d3.select("#chart")
+            .selectAll("*")
+            .remove();
 
 
-    var svg = d3.select("#chart")
+        var filteredData = data.filter(function(d){
 
-        .append("svg")
-
-        .attr(
-            "width",
-            width + margin.left + margin.right
-        )
-
-        .attr(
-            "height",
-            height + margin.top + margin.bottom
-        )
-
-        .append("g")
-
-        .attr(
-            "transform",
-            "translate("+
-            margin.left+
-            ","+
-            margin.top+
-            ")"
-        );
-
-
-
-    var countries =
-        filteredData.map(function(d){
-
-            return d.country;
+            return d.year === selectedYear;
 
         });
 
+        console.log("Selected year:", selectedYear);
+        console.log("Filtered data:", filteredData);
 
+        //tooptip created
+        var tooltip = d3.select("#tooltip")
+            .style("position","absolute")
+            .style("visibility","hidden");
+            
+        var svg = d3.select("#chart")
 
-    var categories = [
-        "Expenditure",
-        "Coverage"
-    ];
+            .append("svg")
 
+            .attr(
+                "width",
+                width + margin.left + margin.right
+            )
 
+            .attr(
+                "height",
+                height + margin.top + margin.bottom
+            )
 
-    var x0 = d3.scaleBand()
+            .append("g")
 
-        .domain(countries)
-
-        .range([0,width])
-
-        .padding(0.2);
-
-
-
-    var x1 = d3.scaleBand()
-
-        .domain(categories)
-
-        .range([
-            0,
-            x0.bandwidth()
-        ])
-
-        .padding(0.05);
-
-
-
-    var yScale = d3.scaleLinear()
-
-        .domain([
-            0,
-            100
-        ])
-
-        .range([
-            height,
-            0
-        ]);
+            .attr(
+                "transform",
+                "translate("+
+                margin.left+
+                ","+
+                margin.top+
+                ")"
+            );
 
 
 
-    var colour = d3.scaleOrdinal()
+        var countries =
+            filteredData.map(function(d){
 
-        .domain(categories)
+                return d.country;
 
-        .range([
-            "steelblue",
-            "orange"
-        ]);
+            });
 
 
 
-    var countryGroups = svg.selectAll(".country")
-
-        .data(filteredData)
-
-        .enter()
-
-        .append("g")
-
-        .attr(
-            "transform",
-            function(d){
-
-                return "translate("+
-                x0(d.country)+
-                ",0)";
-
-            }
-        );
+        var categories = [
+            "Expenditure",
+            "Coverage"
+        ];
 
 
 
-    countryGroups.selectAll("rect")
+        var x0 = d3.scaleBand()
 
-        .data(function(d){
+            .domain(countries)
 
-            return [
+            .range([0,width])
 
-                {
-                    category:"Expenditure",
-                    value:d.expenditure
-                },
+            .padding(0.2);
 
-                {
-                    category:"Coverage",
-                    value:d.coverage
+
+
+        var x1 = d3.scaleBand()
+
+            .domain(categories)
+
+            .range([
+                0,
+                x0.bandwidth()
+            ])
+
+            .padding(0.05);
+
+
+
+        var yScale = d3.scaleLinear()
+
+            .domain([
+                0,
+                100
+            ])
+
+            .range([
+                height,
+                0
+            ]);
+
+
+
+        var colour = d3.scaleOrdinal()
+
+            .domain(categories)
+
+            .range([
+                "steelblue",
+                "orange"
+            ]);
+
+
+
+        var countryGroups = svg.selectAll(".country")
+
+            .data(filteredData)
+
+            .enter()
+
+            .append("g")
+
+            .attr(
+                "transform",
+                function(d){
+
+                    return "translate("+
+                    x0(d.country)+
+                    ",0)";
+
                 }
-
-            ];
-
-        })
-
-        .enter()
-
-        .append("rect")
-
-        .attr(
-            "x",
-            function(d){
-
-                return x1(d.category);
-
-            }
-        )
-
-        .attr(
-            "y",
-            function(d){
-
-                return yScale(d.value);
-
-            }
-        )
-
-        .attr(
-            "width",
-            x1.bandwidth()
-        )
-
-        .attr(
-            "height",
-            function(d){
-
-                return height-yScale(d.value);
-
-            }
-        )
-
-        .attr(
-            "fill",
-            function(d){
-
-                return colour(d.category);
-
-            }
-        );
+            );
 
 
 
-    svg.append("g")
+        countryGroups.selectAll("rect")
 
-        .attr(
-            "transform",
-            "translate(0,"+height+")"
-        )
+            .data(function(d){
 
-        .call(
-            d3.axisBottom(x0)
-        )
+                return [
 
-        .selectAll("text")
+                    {
+                        category:"Expenditure",
+                        value:d.expenditure
+                    },
 
-        .attr(
-            "transform",
-            "rotate(-45)"
-        )
+                    {
+                        category:"Coverage",
+                        value:d.coverage
+                    }
 
-        .style(
-            "text-anchor",
-            "end"
-        );
+                ];
+
+            })
+
+            .enter()
+
+            .append("rect")
+
+            // tooptip added
+            .on("mouseover",function(event,d){
+
+                tooltip
+                    .style(
+                        "visibility",
+                        "visible"
+                    )
+                    .html(
+
+                        "<strong>" +
+                        d.category +
+                        "</strong><br>" +
+
+                        "Country: " +
+                        d3.select(this.parentNode).datum().country +
+                        "<br>" +
+
+                        "Value: " +
+                        d.value.toFixed(2) +
+                        "%"
+
+                    );
+
+            })
+
+            .on("mouseover", function(event, d){
+
+                tooltip
+                    .style(
+                        "visibility",
+                        "visible"
+                    )
+                    .html(
+
+                        "<strong>" +
+                        d.category +
+                        "</strong><br>" +
+
+                        "Country: " +
+                        d3.select(this.parentNode).datum().country +
+                        "<br>" +
+
+                        "Value: " +
+                        d.value.toFixed(2) +
+                        "%"
+
+                    );
+
+                d3.select(this)
+                    .attr(
+                        "stroke",
+                        "black"
+                    )
+                    .attr(
+                        "stroke-width",
+                        2
+                    );
+
+            })
+
+            .on("mousemove",function(event){
+                
+                tooltip
+                    .style(
+                        "left",
+                        event.pageX + 10 + "px"
+                    )
+
+                    .style(
+                        "top",
+                        event.pageY + 10 + "px"
+                    );
+            })
+
+            .on("mouseout",function(){
+
+                tooltip
+                    .style(
+                        "visibility",
+                        "hidden"
+                    );
+
+
+                d3.select(this)
+                    .attr(
+                        "stroke",
+                        "none"
+                    );
+
+            })
+
+            .attr(
+                "x",
+                function(d){
+
+                    return x1(d.category);
+
+                }
+            )
+
+            .attr(
+                "y",
+                function(d){
+
+                    return yScale(d.value);
+
+                }
+            )
+
+            .attr(
+                "width",
+                x1.bandwidth()
+            )
+
+            .attr(
+                "height",
+                function(d){
+
+                    return height-yScale(d.value);
+
+                }
+            )
+
+            .attr(
+                "fill",
+                function(d){
+
+                    return colour(d.category);
+
+                }
+            );
 
 
 
-    svg.append("g")
+        svg.append("g")
 
-        .call(
-            d3.axisLeft(yScale)
-        );
+            .attr(
+                "transform",
+                "translate(0,"+height+")"
+            )
 
+            .call(
+                d3.axisBottom(x0)
+            )
+
+            .selectAll("text")
+
+            .attr(
+                "transform",
+                "rotate(-45)"
+            )
+
+            .style(
+                "text-anchor",
+                "end"
+            );
+
+
+
+        svg.append("g")
+
+            .call(
+                d3.axisLeft(yScale)
+            );
+
+        var legend = svg.append("g")
+            .attr(
+                "transform",
+                "translate(0,-25)"
+            );
+
+
+        categories.forEach(function(category,i){
+
+            legend.append("rect")
+
+                .attr(
+                    "x",
+                    i * 150
+                )
+
+                .attr(
+                    "width",
+                    15
+                )
+
+                .attr(
+                    "height",
+                    15
+                )
+
+                .attr(
+                    "fill",
+                    colour(category)
+                );
+
+
+            legend.append("text")
+
+                .attr(
+                    "x",
+                    i * 150 + 22
+                )
+
+                .attr(
+                    "y",
+                    12
+                )
+
+                .text(category);
+
+        });
+
+    }
+
+    drawChart(2023); //default year
+
+
+    d3.select("#yearSelect")
+    .on("change",function(){
+        drawChart(+this.value);
+    });
 
 });
