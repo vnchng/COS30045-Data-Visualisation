@@ -11,16 +11,6 @@ d3.csv("data/clean/health_expenditure_by_provider_clean.csv").then(function(data
     });
 
 
-    // Get unique countries from dataset
-    var countries = Array.from(
-        new Set(
-            data.map(function(d) {
-                return d.country;
-            })
-        )
-    ).sort();
-
-
     // Countries displayed by default
     var selectedCountries = new Set([
         "Australia",
@@ -28,89 +18,6 @@ d3.csv("data/clean/health_expenditure_by_provider_clean.csv").then(function(data
         "United Kingdom",
         "United States"
     ]);
-
-
-    // ----------------------------------------------------
-    // COUNTRY FILTER
-    // ----------------------------------------------------
-
-    // Create country checkboxes
-    var countryOptions = d3.select("#countryButtons")
-        .selectAll("label")
-        .data(countries)
-        .enter()
-        .append("label")
-        .attr("class", "country-option");
-
-
-    // Add checkbox
-    countryOptions.append("input")
-        .attr("type", "checkbox")
-        .attr("value", function(d) {
-            return d;
-        })
-        .property("checked", function(d) {
-            return selectedCountries.has(d);
-        })
-        .on("change", function(event, country) {
-
-            if (this.checked) {
-                selectedCountries.add(country);
-            } else {
-                selectedCountries.delete(country);
-            }
-
-            updateSelectedCountries();
-            drawChart(selectedYear);
-        });
-
-
-    // Add country name beside checkbox
-    countryOptions.append("span")
-        .text(function(d) {
-            return d;
-        });
-
-
-    // Update selected country labels
-    function updateSelectedCountries() {
-
-        var selected = Array.from(selectedCountries);
-
-        var container = d3.select("#selectedCountries");
-
-
-        // Remove old labels
-        container.selectAll("*").remove();
-
-
-        // Add current selected countries
-        container.selectAll("span")
-            .data(selected)
-            .enter()
-            .append("span")
-            .attr("class", "selected-country")
-            .text(function(d) {
-                return d;
-            });
-    }
-
-
-    // Display default selected countries
-    updateSelectedCountries();
-
-
-    // Open / close country dropdown
-    d3.select("#countryDropdown")
-        .on("click", function() {
-
-            var menu = d3.select("#countryMenu");
-
-            menu.classed(
-                "show",
-                !menu.classed("show")
-            );
-        });
 
 
     // ----------------------------------------------------
@@ -159,6 +66,134 @@ d3.csv("data/clean/health_expenditure_by_provider_clean.csv").then(function(data
         "HP9": "Rest of world",
         "OTHER": "Other / unallocated"
     };
+
+
+    // ----------------------------------------------------
+    // COUNTRY FILTER
+    // ----------------------------------------------------
+
+    // Get countries that have data for the selected year
+    function getAvailableCountries(selectedYear) {
+
+        return Array.from(
+            new Set(
+                data
+                    .filter(function(d) {
+                        return (
+                            d.year === selectedYear &&
+                            mainProviders.includes(d.provider_code)
+                        );
+                    })
+                    .map(function(d) {
+                        return d.country;
+                    })
+            )
+        ).sort();
+    }
+
+
+    // Update country checkboxes for selected year
+    function updateCountryOptions(selectedYear) {
+
+        var availableCountries =
+            getAvailableCountries(selectedYear);
+
+
+        // Remove selected countries that are not
+        // available in the selected year
+        selectedCountries.forEach(function(country) {
+
+            if (!availableCountries.includes(country)) {
+                selectedCountries.delete(country);
+            }
+
+        });
+
+
+        // Remove old country options
+        d3.select("#countryButtons")
+            .selectAll("*")
+            .remove();
+
+
+        // Create country checkboxes
+        var countryOptions = d3.select("#countryButtons")
+            .selectAll("label")
+            .data(availableCountries)
+            .enter()
+            .append("label")
+            .attr("class", "country-option");
+
+
+        // Add checkbox
+        countryOptions.append("input")
+            .attr("type", "checkbox")
+            .attr("value", function(d) {
+                return d;
+            })
+            .property("checked", function(d) {
+                return selectedCountries.has(d);
+            })
+            .on("change", function(event, country) {
+
+                if (this.checked) {
+                    selectedCountries.add(country);
+                } else {
+                    selectedCountries.delete(country);
+                }
+
+                updateSelectedCountries();
+                drawChart(selectedYear);
+            });
+
+
+        // Add country name beside checkbox
+        countryOptions.append("span")
+            .text(function(d) {
+                return d;
+            });
+
+
+        // Update selected country labels
+        updateSelectedCountries();
+    }
+
+
+    // Update selected country labels
+    function updateSelectedCountries() {
+
+        var selected = Array.from(selectedCountries);
+
+        var container = d3.select("#selectedCountries");
+
+
+        // Remove old labels
+        container.selectAll("*").remove();
+
+
+        // Add current selected countries
+        container.selectAll("span")
+            .data(selected)
+            .enter()
+            .append("span")
+            .attr("class", "selected-country")
+            .text(function(d) {
+                return d;
+            });
+    }
+
+
+    // Open / close country dropdown
+    d3.select("#countryDropdown")
+        .on("click", function() {
+
+            var menu = d3.select("#countryMenu");
+
+            menu.classed(
+                "show",
+                !menu.classed("show")
+            );
+        });
 
 
     // ----------------------------------------------------
@@ -315,6 +350,7 @@ d3.csv("data/clean/health_expenditure_by_provider_clean.csv").then(function(data
                     return d[provider] || 0;
                 }
             );
+
         });
 
 
@@ -1078,6 +1114,10 @@ d3.csv("data/clean/health_expenditure_by_provider_clean.csv").then(function(data
     var selectedYear = 2023;
 
 
+    // Update countries available for default year
+    updateCountryOptions(selectedYear);
+
+
     // Draw initial chart
     drawChart(selectedYear);
 
@@ -1088,6 +1128,12 @@ d3.csv("data/clean/health_expenditure_by_provider_clean.csv").then(function(data
 
             selectedYear = +this.value;
 
+
+            // Update countries available for selected year
+            updateCountryOptions(selectedYear);
+
+
+            // Redraw chart
             drawChart(selectedYear);
         });
 
