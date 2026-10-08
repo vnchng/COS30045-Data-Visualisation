@@ -352,8 +352,85 @@ d3.csv("../../data/clean/perceived_health_status_by_socioeconomic_status.csv")
                     return colourScale(d.value);
 
                 }
-            );
+            )
 
+            // Hover over heatmap cell
+            .on("mouseover",function(event,d){
+
+                tooltip
+                    .style(
+                        "visibility",
+                        "visible"
+                    )
+                    .html(
+
+                        "<strong>" +
+                        d.country +
+                        "</strong><br>" +
+
+                        "Education: " +
+                        educationNames[
+                            d.socioeconomic_status_code
+                        ]
+                        +
+                        "<br>" +
+
+                        "Good/very good health: " +
+                        d.value +
+                        "%"
+
+                    );
+
+
+                // highlighting selected cell where hovering
+                d3.select(this)
+                    .style(
+                        "stroke",
+                        "black"
+                    )
+                    .style(
+                        "stroke-width",
+                        2
+                    );
+
+            })
+
+            // Tooltip following with cursor
+            .on("mousemove",function(event){
+
+                tooltip
+                    .style(
+                        "left",
+                        (event.pageX + 10) + "px"
+                    )
+                    .style(
+                        "top",
+                        (event.pageY + 10) + "px"
+                    );
+
+            })
+
+            //tooltip visibility off when mouse leaves the cell
+            .on("mouseout",function(){
+
+                tooltip
+                    .style(
+                        "visibility",
+                        "hidden"
+                    );
+
+
+                d3.select(this)
+                    .style(
+                        "stroke",
+                        "white"
+                    )
+                    .style(
+                        "stroke-width",
+                        1
+                    );
+
+            });
 
 
         svg.append("g")
@@ -377,8 +454,6 @@ d3.csv("../../data/clean/perceived_health_status_by_socioeconomic_status.csv")
                 "font-size",
                 "12px"
             );
-
-
 
         svg.append("g")
             .call(
